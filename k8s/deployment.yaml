@@ -21,7 +21,7 @@ spec:
           name: jwks-merge
           env:
             - name: JWKS_URLS
-              value: https://appleid.apple.com/auth/keys https://hellofresh-staging.eu.auth0.com/.well-known/jwks.json
+              value: https://vitorbari-test.eu.auth0.com/.well-known/jwks.json https://appleid.apple.com/auth/keys
             - name: DEST_JWKS
               value: /var/local/jwks.json
           volumeMounts:
