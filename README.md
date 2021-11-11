@@ -62,7 +62,9 @@ Requires [curl](https://curl.se/) and [jq](https://stedolan.github.io/jq/).
 ```bash
 $ git clone git@github.com:vitorbari/jwks-merge.git
 $ cd jwks-merge
-$ JWKS_URLS="https://vitorbari-test.eu.auth0.com/.well-known/jwks.json https://appleid.apple.com/auth/keys" DEST_JWKS=/tmp/foo.json ./src/jwks-merge.sh
+$ JWKS_URLS="https://vitorbari-test.eu.auth0.com/.well-known/jwks.json https://appleid.apple.com/auth/keys" \
+     DEST_JWKS=/tmp/foo.json \
+     ./src/jwks-merge.sh
 ```
 
 ## Notes
