@@ -1,5 +1,14 @@
 # jwks-merge
 
+- [Introduction](#introduction)
+- [Usage](#usage)
+  * [Kubernetes](#kubernetes)
+    + [Kubernetes Resources](#kubernetes-resources)
+    + [Helm Charts](#helm-charts)
+  * [Docker](#docker)
+  * [Locally](#locally)
+- [Notes](#notes)
+
 ## Introduction
 
 `jwks-merge` can merge multiple [JSON Web Key Set](https://datatracker.ietf.org/doc/html/rfc7517#section-5) (JWKS) files into a single JWKS.
@@ -46,7 +55,9 @@ $ docker run \
     vitorbari/jwks-merge
 ```
 
-### Localy
+### Locally
+
+Requires [curl](https://curl.se/) and [jq](https://stedolan.github.io/jq/).
 
 ```bash
 $ git clone git@github.com:vitorbari/jwks-merge.git
