@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: jwks-merge
+  name: jwks-merge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jwks-merge
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: jwks-merge
+    spec:
+      initContainers:
+        - image: vitorbari/jwks-merge
+          name: jwks-merge
+          env:
+            - name: JWKS_URLS
+              value: https://appleid.apple.com/auth/keys https://hellofresh-staging.eu.auth0.com/.well-known/jwks.json
+            - name: DEST_JWKS
+              value: /var/local/jwks.json
+          volumeMounts:
+            - name: merged-jwks-storage
+              mountPath: /var/local
+      containers:
+        - image: nginx
+          name: nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: merged-jwks-storage
+              mountPath: /var/local
+              readOnly: true
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+      volumes:
+        - name: merged-jwks-storage
+          emptyDir: {}
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf
+            items:
+              - key: nginx.conf
+                path: nginx.conf
