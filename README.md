@@ -1,5 +1,7 @@
 # jwks-merge
 
+![publish-docker-image](https://github.com/vitorbari/jwks-merge/actions/workflows/publish-docker-image.yml/badge.svg)
+
 - [Introduction](#introduction)
 - [Usage](#usage)
   * [Kubernetes](#kubernetes)
