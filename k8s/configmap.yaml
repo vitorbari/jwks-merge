@@ -26,7 +26,7 @@ data:
         listen  [::]:80;
         server_name  localhost;
 
-        location /.well-known/jwks.json {
+        location /jwks.json {
           alias /var/local/jwks.json;
         }
       }

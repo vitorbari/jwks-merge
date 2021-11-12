@@ -35,12 +35,12 @@ Example configuration files are located on `./k8s`.
 ```
 $ git clone git@github.com:vitorbari/jwks-merge.git
 $ cd jwks-merge/k8s
-$ kubectl apply -f deployment.yaml -f config-map.yaml -f service.yaml
+$ kubectl apply -f deployment.yaml -f configmap.yaml -f service.yaml
 ```
 
 Testing the service:
 
-`$ kubectl run temp --image busybox --restart=Never -it --command -- wget jwks-merge.default.svc.cluster.local/.well-known/jwks.json -O -`
+`$ kubectl run temp --image busybox --restart=Never -it --command -- wget jwks-merge.default.svc.cluster.local/jwks.json -O -`
 
 ### Docker
 
