@@ -3,8 +3,6 @@
 - [Introduction](#introduction)
 - [Usage](#usage)
   * [Kubernetes](#kubernetes)
-    + [Kubernetes Resources](#kubernetes-resources)
-    + [Helm Charts](#helm-charts)
   * [Docker](#docker)
   * [Locally](#locally)
 - [Notes](#notes)
@@ -28,7 +26,7 @@ The application expects two environment variables:
 
 By combining `jwks-merge` with a webserver such as Nginx, you can easily serve the merged JWKS via an URL.
 
-#### Kubernetes Resources
+<!-- TODO Helm Charts -->
 
 Example configuration files are located on `./k8s`.
 
@@ -41,10 +39,6 @@ $ kubectl apply -f deployment.yaml -f config-map.yaml -f service.yaml
 Testing the service:
 
 `$ kubectl run temp --image busybox --restart=Never -it --command -- wget jwks-merge.default.svc.cluster.local/.well-known/jwks.json -O -`
-
-#### Helm Charts
-
-TODO
 
 ### Docker
 
