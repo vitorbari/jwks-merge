@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "jwks-merge.fullname" . }}
+  labels:
+    {{- include "jwks-merge.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "jwks-merge.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "jwks-merge.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "jwks-merge.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.images.jwksMerge.repository }}:{{ .Values.images.jwksMerge.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.images.jwksMerge.pullPolicy }}
+          env:
+            - name: JWKS_URLS
+              value: {{ .Values.jwksUrls }}
+            - name: DEST_JWKS
+              value: /var/local/jwks.json
+          volumeMounts:
+            - name: merged-jwks-storage
+              mountPath: /var/local
+      containers:
+        - name: {{ .Chart.Name }}-nginx
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.images.nginx.repository }}:{{ .Values.images.nginx.tag }}"
+          imagePullPolicy: {{ .Values.images.nginx.pullPolicy }}
+          volumeMounts:
+            - name: merged-jwks-storage
+              mountPath: /var/local
+              readOnly: true
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: merged-jwks-storage
+          emptyDir: {}
+        - name: nginx-conf
+          configMap:
+            name: {{ include "jwks-merge.fullname" . }}-nginx
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
