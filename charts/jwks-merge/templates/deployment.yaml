@@ -34,6 +34,8 @@ spec:
               value: {{ .Values.jwksUrls }}
             - name: DEST_JWKS
               value: /var/local/jwks.json
+            - name: TEST_CHART
+              value: foo
           volumeMounts:
             - name: merged-jwks-storage
               mountPath: /var/local
