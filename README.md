@@ -11,11 +11,13 @@
 
 ## Introduction
 
-`jwks-merge` can merge multiple [JSON Web Key Set](https://datatracker.ietf.org/doc/html/rfc7517#section-5) (JWKS) files into a single JWKS.
-
-If an application needs to verify a JWT that was issued by one of many trusted authorization servers, then `jwks-merge` can simplify the process by providing a single JWKS.
+If an application needs to verify a JWT that was issued by **one of many** trusted authorization servers, then `jwks-merge` can simplify the process by merging and providing a single [JWKS](https://datatracker.ietf.org/doc/html/rfc7517#section-5).
 
 ## Usage
+
+The best usage of `jwks-merge` is when exposing the merged JWKS file via a webserver, this is specially easy in Kubernetes with the provided [helm-charts](#kubernetes).
+
+If you just need to merge some JWKS but do not care about exposing the file, you can probably just run the [script locally](#locally), or just see [how it is done](./src/jwks-merge.sh).
 
 The application expects two environment variables:
 
@@ -26,11 +28,9 @@ The application expects two environment variables:
 
 ### Kubernetes
 
-By combining `jwks-merge` with a webserver such as Nginx, you can easily serve the merged JWKS via an URL.
-
 <!-- TODO Helm Charts -->
 
-Example configuration files are located on `./k8s`.
+There are also some Kubernetes example configuration files are located under `./k8s`.
 
 ```
 $ git clone git@github.com:vitorbari/jwks-merge.git
@@ -41,6 +41,8 @@ $ kubectl apply -f deployment.yaml -f configmap.yaml -f service.yaml
 Testing the service:
 
 `$ kubectl run temp --image busybox --restart=Never -it --command -- wget jwks-merge.default.svc.cluster.local/jwks.json -O -`
+
+Please see the [limitations section](#limitations).
 
 ### Docker
 
@@ -62,6 +64,10 @@ $ JWKS_URLS="https://vitorbari-test.eu.auth0.com/.well-known/jwks.json https://a
      DEST_JWKS=/tmp/foo.json \
      ./src/jwks-merge.sh
 ```
+
+## Limitations
+
+- When exposing the merged JWKS file via a webserver, the file does not auto-refresh. Changes on one the original JWKS will only be reflected on the merged JWKS after a restart. (This behaviour should be easy to change if the auto-refresh is needed).
 
 ## Notes
 
