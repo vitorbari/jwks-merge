@@ -15,7 +15,7 @@ If an application needs to verify a JWT that was issued by **one of many** trust
 
 ## Usage
 
-The best usage of `jwks-merge` is when exposing the merged JWKS file via a webserver, this is specially easy in Kubernetes with the provided [helm-charts](#kubernetes).
+The best usage of `jwks-merge` is when exposing the merged JWKS file via a webserver, this is especially easy in Kubernetes with the provided [helm-charts](#kubernetes).
 
 If you just need to merge some JWKS but do not care about exposing the file, you can probably just run the [script locally](#locally), or just see [how it is done](./src/jwks-merge.sh).
 
@@ -28,11 +28,14 @@ The application expects two environment variables:
 
 ### Kubernetes
 
-<!-- TODO Helm Charts -->
+```bash
+$ helm repo add jwks-merge https://vitorbari.github.io/jwks-merge/
+$ helm install my-jwks-merge jwks-merge/jwks-merge --set jwksUrls="http://list-of http://jwks"
+```
 
 There are also some Kubernetes example configuration files are located under `./k8s`.
 
-```
+```bash
 $ git clone git@github.com:vitorbari/jwks-merge.git
 $ cd jwks-merge/k8s
 $ kubectl apply -f deployment.yaml -f configmap.yaml -f service.yaml
@@ -67,7 +70,7 @@ $ JWKS_URLS="https://vitorbari-test.eu.auth0.com/.well-known/jwks.json https://a
 
 ## Limitations
 
-- When exposing the merged JWKS file via a webserver, the file does not auto-refresh. Changes on one the original JWKS will only be reflected on the merged JWKS after a restart. (This behaviour should be easy to change if the auto-refresh is needed).
+- When exposing the merged JWKS file via a webserver, the file does not auto-refresh. Changes on one of the original JWKS will only be reflected on the merged JWKS after a restart. (This behavior should be easy to change if the auto-refresh is needed).
 
 ## Notes
 
