@@ -1,0 +1,22 @@
+apiVersion: v1
+entries:
+  jwks-merge:
+  - apiVersion: v2
+    appVersion: v0.1.0
+    created: "2021-11-18T18:02:54.584162149Z"
+    description: A Helm chart for Kubernetes
+    digest: cf0fec2be008c07b7db0dc1c7d54fc3315a379f93f34e97c15570d9a520a5b8a
+    home: https://github.com/vitorbari/jwks-merge
+    keywords:
+    - jwks
+    maintainers:
+    - email: vitorbari@gmail.com
+      name: vitorbari
+    name: jwks-merge
+    sources:
+    - https://github.com/vitorbari/jwks-merge
+    type: application
+    urls:
+    - https://github.com/vitorbari/jwks-merge/releases/download/jwks-merge-0.1.0/jwks-merge-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-11-18T18:02:54.584172349Z"
