@@ -7,6 +7,7 @@
   * [Kubernetes](#kubernetes)
   * [Docker](#docker)
   * [Locally](#locally)
+- [Limitations](#limitations)
 - [Notes](#notes)
 
 ## Introduction
