@@ -11,7 +11,9 @@
 
 ## Introduction
 
-If an application needs to verify a JWT that was issued by **one of many** trusted authorization servers, then `jwks-merge` can simplify the process by merging and providing a single [JWKS](https://datatracker.ietf.org/doc/html/rfc7517#section-5).
+[JWKS](https://datatracker.ietf.org/doc/html/rfc7517#section-5) is a set of keys containing the public keys that should be used to verify any JWT issued by an authorization server.
+
+If an application needs to verify a JWT that was issued by **one of many** trusted authorization servers, then `jwks-merge` can simplify the process by merging and providing a single JWKS.
 
 ## Usage
 
